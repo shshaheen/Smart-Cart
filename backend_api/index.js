@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 const cors = require('cors');
+const bannerRouter = require('./routes/banner');
 
 // Defined the port number the server should listen on
 const PORT = process.env.PORT || 3000;
@@ -12,9 +13,11 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 
+
 // This middleware function is executed for every request that comes into our server
 app.use(express.json());
-app.use(authRouter);    
+app.use(authRouter);   
+app.use(bannerRouter); 
 
 
 DB = process.env.MONGO_URI;
