@@ -3,12 +3,38 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/views/screens/authentication_screens/register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final AuthController _authController = AuthController();
+
   late String email;
+
   late String password;
+
+  bool isLoading = false;
+
+  loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    await _authController
+        .signInUsers(context: context, email: email, password: password)
+        .whenComplete(() {
+      // _formKey.currentState!.reset();
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,14 +162,9 @@ class LoginScreen extends StatelessWidget {
                     InkWell(
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          print('pass');
-                          await _authController.signInUsers(
-                              context: context,
-                              email: email,
-                              password: password);
-                          print("Done");
+                          loginUser();
                         } else {
-                          print('failed');
+                          // print('failed');
                         }
                       },
                       child: Container(
@@ -231,16 +252,20 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 )),
                             Center(
-                                child: Text(
-                              'Sign in',
-                              style: GoogleFonts.getFont(
-                                'Lato',
-                                color: Colors.white,
-                                letterSpacing: 0.2,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
+                                child: isLoading
+                                    ? CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        'Sign in',
+                                        style: GoogleFonts.getFont(
+                                          'Lato',
+                                          color: Colors.white,
+                                          letterSpacing: 0.2,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
                           ],
                         )),
                       ),

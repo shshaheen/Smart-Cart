@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:smart_cart/services/manage_http_response.dart';
+import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
+import 'package:smart_cart/views/screens/main_screen.dart';
 import 'dart:convert';
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +22,7 @@ class AuthController {
           city: '',
           locality: '',
           password: password,
-          token: ''
-          );
+          token: '');
       http.Response response = await http.post(
         Uri.parse('$uri/api/signup'),
         body: user
@@ -34,6 +36,9 @@ class AuthController {
           response: response,
           context: context,
           onSuccess: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => LoginScreen())
+            );
             showSnackBar(context, 'Account has been created for you.');
           });
     } catch (e) {
@@ -65,6 +70,10 @@ class AuthController {
           response: response,
           context: context,
           onSuccess: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MainScreen()),
+              (route)=>false 
+            );
             showSnackBar(context, 'Logged In');
           });
     } catch (e) {
