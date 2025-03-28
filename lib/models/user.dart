@@ -10,6 +10,7 @@ class User {
   final String city;
   final String locality;
   final String password;
+  final String token;
 
   User(
       {required this.id,
@@ -18,7 +19,9 @@ class User {
       required this.state,
       required this.city,
       required this.locality,
-      required this.password});
+      required this.password,
+      required this.token,
+    });
 
 //Process of converting user object to a map is called serialisation
 //Serialisation: Convert user object to a map
@@ -34,6 +37,7 @@ class User {
       'city': city,
       'locality': locality,
       'password': password,
+      'token': token,
     };
   }
 
@@ -64,11 +68,12 @@ class User {
       city: map['city'] ?? '',
       locality: map['locality'] ?? '',
       password: map['password'] ?? '',
+      token: map['token'] ?? '',
     );
   }
 
 // fromJson: This factory constructor takes json string, and decodes it into a Map<String, dynamic>
-// and then uses fromMap to convert that Map into a User Object 
+// and then uses fromMap to convert that Map into a User Object
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);
 }

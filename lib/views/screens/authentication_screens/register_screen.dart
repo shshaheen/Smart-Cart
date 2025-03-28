@@ -94,7 +94,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Align(
                       alignment: Alignment.topLeft,
