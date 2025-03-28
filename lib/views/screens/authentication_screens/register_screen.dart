@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final AuthController _authController = AuthController();
+  late String email;
+  late String username;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +60,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     // const SizedBox(height: 20,),
                     TextFormField(
+                      onChanged: (value) {
+                        username = value;
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your full name';
@@ -97,6 +105,9 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        email = value;
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Email cannot be empty';
@@ -132,6 +143,9 @@ class RegisterScreen extends StatelessWidget {
                       height: 20,
                     ),
                     TextFormField(
+                      onChanged: (value) {
+                        password = value;
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Password cannot be empty';
@@ -169,12 +183,15 @@ class RegisterScreen extends StatelessWidget {
                       height: 20,
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          print("correct");
-                        }
-                        else {
-                          print("incorrect");
+                          await _authController.signUpUsers(
+                              context: context,
+                              username: username,
+                              email: email,
+                              password: password);
+                        } else {
+                          // print("incorrect");
                         }
                       },
                       child: Container(
