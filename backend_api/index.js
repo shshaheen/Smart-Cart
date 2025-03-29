@@ -5,6 +5,7 @@ const authRouter = require('./routes/auth');
 const cors = require('cors');
 const bannerRouter = require('./routes/banner');
 const categoryRouter = require('./routes/category');
+const SubCategoryRouter = require('./routes/sub_category');
 // Defined the port number the server should listen on
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
@@ -19,6 +20,8 @@ app.use(express.json());
 app.use(authRouter);   
 app.use(bannerRouter); 
 app.use(categoryRouter);
+app.use(SubCategoryRouter);
+
 
 DB = process.env.MONGO_URI;
 
