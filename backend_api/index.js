@@ -7,6 +7,7 @@ const bannerRouter = require('./routes/banner');
 const categoryRouter = require('./routes/category');
 const SubCategoryRouter = require('./routes/sub_category');
 const productRouter = require('./routes/product');
+const productReviewRouter = require('./routes/product_review');
 // Defined the port number the server should listen on
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
@@ -23,6 +24,8 @@ app.use(bannerRouter);
 app.use(categoryRouter);
 app.use(SubCategoryRouter);
 app.use(productRouter);
+app.use(productReviewRouter);
+
 
 DB = process.env.MONGO_URI;
 
