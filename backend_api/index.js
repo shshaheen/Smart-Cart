@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 const cors = require('cors');
 const bannerRouter = require('./routes/banner');
-
+const categoryRouter = require('./routes/category');
 // Defined the port number the server should listen on
 const PORT = process.env.PORT || 3000;
 require('dotenv').config();
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(authRouter);   
 app.use(bannerRouter); 
-
+app.use(categoryRouter);
 
 DB = process.env.MONGO_URI;
 
