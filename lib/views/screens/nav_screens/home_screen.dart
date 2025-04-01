@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cart/views/screens/nav_screens/widgets/banner_widget.dart';
 import 'package:smart_cart/views/screens/nav_screens/widgets/header_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(      
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            HeaderWidget(),
+            SizedBox(height: 120, child: HeaderWidget()),
+            BannerWidget(),
           ],
         ),
       ),

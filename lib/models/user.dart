@@ -57,7 +57,7 @@ class User {
 // the factory constructor takes a Map(usually obtained from a Json Object) and converts it into a User Object. If a field is not present in the Map,
 // it defaults to an empty string.
 
-//fromMap: This constructortake a Map<String, dynamic> and converts it into a User Object
+//fromMap: This constructor take a Map<String, dynamic> and converts it into a User Object
 // its useful when you already have the data in map format
   factory User.fromMap(Map<String, dynamic> map) {
     return User(

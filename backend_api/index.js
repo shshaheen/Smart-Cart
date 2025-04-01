@@ -14,7 +14,7 @@ require('dotenv').config();
 
 // Create an instance of an express application because it give us the starting point
 const app = express();
-app.use(cors());
+app.use(cors()); //enable CORS for all routes and origin(domain),
 
 
 // This middleware function is executed for every request that comes into our server

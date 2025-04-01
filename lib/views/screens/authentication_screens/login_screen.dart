@@ -4,7 +4,7 @@ import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/views/screens/authentication_screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
