@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
+import 'package:smart_cart/views/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: MainScreen(),
     );
   }
 }
