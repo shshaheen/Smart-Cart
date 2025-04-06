@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_cart/providers/user_provider.dart';
 import 'package:smart_cart/services/manage_http_response.dart';
 import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
 import 'package:smart_cart/views/screens/main_screen.dart';
@@ -6,6 +9,8 @@ import 'dart:convert';
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 import '../global_variables.dart';
+
+final providerContainer = ProviderContainer();
 
 class AuthController {
   Future<void> signUpUsers(
@@ -36,9 +41,8 @@ class AuthController {
           response: response,
           context: context,
           onSuccess: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => LoginScreen())
-            );
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => LoginScreen()));
             showSnackBar(context, 'Account has been created for you.');
           });
     } catch (e) {
@@ -69,11 +73,31 @@ class AuthController {
       manageHttpResponse(
           response: response,
           context: context,
-          onSuccess: () {
+          onSuccess: () async {
+            // Access sharedPreferences for token and user data storage
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+
+            //Extract the authentication token from the response body
+            String token = jsonDecode(response.body)['token'];
+
+            // Store the authentication token securely in sharedPreferences
+
+            await preferences.setString('auth_token', token);
+
+            // Encode the user data received from the backend as JSON
+            final userJson = jsonEncode(jsonDecode(response.body)['user']);
+
+            //Update the application state with the user data using Riverpod
+            // Encode the user data received from the backened as json using Riverpod
+            providerContainer.read(userProvider.notifier).setUser(userJson);
+
+            //store the data in sharedPrefernce for future use
+            await preferences.setString('user', userJson);
+
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => MainScreen()),
-              (route)=>false 
-            );
+                MaterialPageRoute(builder: (context) => MainScreen()),
+                (route) => false);
             showSnackBar(context, 'Logged In');
           });
     } catch (e) {

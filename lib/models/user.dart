@@ -61,7 +61,7 @@ class User {
 // its useful when you already have the data in map format
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       username: map['username'] ?? '',
       email: map['email'] ?? '',
       state: map['state'] ?? '',
