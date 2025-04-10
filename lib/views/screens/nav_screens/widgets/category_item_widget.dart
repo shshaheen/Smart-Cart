@@ -68,6 +68,7 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                                 width: 47,
                               ),
                               Text(
+                                overflow: TextOverflow.ellipsis,
                                 category.name,
                                 style: GoogleFonts.quicksand(
                                     fontWeight: FontWeight.bold, fontSize: 13),

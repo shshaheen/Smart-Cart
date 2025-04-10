@@ -105,4 +105,24 @@ class AuthController {
       showSnackBar(context, e.toString());
     }
   }
+
+  //SignOut
+  Future<void> signOutUsers({required context}) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      // Clear the stored token and user from SharedPreference
+      await preferences.remove('auth_token');
+      await preferences.remove('user');
+      // Clear the user state
+      providerContainer.read(userProvider.notifier).signOut();
+      //Navigate the user back to the login screen
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (route) => false);
+      showSnackBar(context, 'Signout successfully');
+    } catch (e) {
+      showSnackBar(context, 'Error Signing out');
+    }
+  }
 }
