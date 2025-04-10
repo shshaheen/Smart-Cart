@@ -67,4 +67,6 @@ class ProductController {
       throw Exception('Error loading product : $e');
     }
   }
+
+  
 }
