@@ -23,11 +23,19 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    vendorId:{
+        type: String,
+        required: true,
+    },
+    fullName:{
+        type: String,
+        required: true,
+    },
     subCategory:{
         type: String,
         required: true,
     },
-    image:[
+    images:[
         {
             type: String,
             required: true  
@@ -35,7 +43,7 @@ const productSchema = mongoose.Schema({
     ],
     popular: {
         type: Boolean,
-        default: false
+        default: true
     },
     recommend:{
         type: Boolean,
