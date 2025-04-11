@@ -51,8 +51,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
         .getSubcategoriesByCategoryName(categoryName);
     setState(() {
       _subcategories = subcategories;
-      print(subcategories);
-      print(categoryName);
+      // print(subcategories);
+      // print(categoryName);
     });
   }
 

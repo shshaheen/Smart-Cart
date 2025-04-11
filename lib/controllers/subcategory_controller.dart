@@ -16,8 +16,8 @@ class SubcategoryController {
       },
     );
 
-    print("Response Status: ${response.statusCode}");
-    print("Response Body: ${response.body}");
+    // print("Response Status: ${response.statusCode}");
+    // print("Response Body: ${response.body}");
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decodedResponse = jsonDecode(response.body);
@@ -26,19 +26,19 @@ class SubcategoryController {
         final List<dynamic> data = decodedResponse['subcategories']; // ✅ Extract list correctly
         return data.map((item) => Subcategory.fromJson(item)).toList();
       } else {
-        print("Key 'subcategories' not found in response");
+        // print("Key 'subcategories' not found in response");
         return [];
       }
     } else if (response.statusCode == 404) {
-      print("Subcategories not found for $categoryName, returning empty list.");
+      // print("Subcategories not found for $categoryName, returning empty list.");
       return [];
     } else {
-      print("Failed to fetch subcategories, Status Code: ${response.statusCode}");
+      // print("Failed to fetch subcategories, Status Code: ${response.statusCode}");
       return [];
     }
-  } catch (e, stacktrace) {
-    print("Error fetching categories: $e");
-    print("StackTrace: $stacktrace");
+  } catch (e) {
+    // print("Error fetching categories: $e");
+    // print("StackTrace: $stacktrace");
     return [];
   }
 }

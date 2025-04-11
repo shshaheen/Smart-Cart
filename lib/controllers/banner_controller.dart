@@ -26,7 +26,7 @@ class BannerController {
         //throw an exception if the server responded with an error status code
         throw Exception('Failed to load banners: ');
       }
-    } catch (e,stacktrace) {
+    } catch (e) {
     //   print("Error loading banners: $e");
     // print("StackTrace: $stacktrace");
       throw Exception("Error");

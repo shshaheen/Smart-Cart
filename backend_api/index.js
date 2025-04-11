@@ -15,8 +15,21 @@ require('dotenv').config();
 
 // Create an instance of an express application because it give us the starting point
 const app = express();
-app.use(cors()); //enable CORS for all routes and origin(domain),
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://e4a7-2401-4900-675a-dcfd-9455-9417-1bd8-dcf0.ngrok-free.app' // replace this with your current ngrok URL
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  }));
 
 // This middleware function is executed for every request that comes into our server
 app.use(express.json());
@@ -27,6 +40,7 @@ app.use(SubCategoryRouter);
 app.use(productRouter);
 app.use(productReviewRouter);
 app.use(vendorRouter);
+// app.use(cors()); //enable CORS for all routes and origin(domain),
 
 DB = process.env.MONGO_URI;
 

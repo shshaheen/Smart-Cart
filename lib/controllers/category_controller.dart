@@ -25,9 +25,9 @@ class CategoryController {
         //throw an exception if the server responded with an error status code
         throw Exception('Failed to load Categories: ');
       }
-    } catch (e,stacktrace) {
-      print("Error loading banners: $e");
-    print("StackTrace: $stacktrace");
+    } catch (e) {
+    //   print("Error loading banners: $e");
+    // print("StackTrace: $stacktrace");
       throw Exception("Error Loading categories: ");
     }
   }

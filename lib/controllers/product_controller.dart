@@ -16,7 +16,7 @@ class ProductController {
           'Content-Type': 'application/json; chartset=UTF-8 ',
         },
       );
-      print(response.body);
+      // print(response.body);
       //check if the HTTP response status code is 200, whihc means  the request was successfull
 
       if (response.statusCode == 200) {
