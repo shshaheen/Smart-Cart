@@ -16,20 +16,9 @@ require('dotenv').config();
 // Create an instance of an express application because it give us the starting point
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://e4a7-2401-4900-675a-dcfd-9455-9417-1bd8-dcf0.ngrok-free.app' // replace this with your current ngrok URL
-  ];
+
   
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    }
-  }));
+app.use(cors());
 
 // This middleware function is executed for every request that comes into our server
 app.use(express.json());

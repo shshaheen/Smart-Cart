@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_cart/models/product.dart';
+import 'package:smart_cart/providers/cart_provider.dart';
+import 'package:smart_cart/services/manage_http_response.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
   const ProductDetailScreen({super.key, required this.product});
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  ConsumerState<ProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final _cartProvider = ref.read(cartProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -100,47 +105,51 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         color: Color(0xFF3C55Ef)),
                   ),
                 ),
-                SizedBox(width: 20,),
-                Text("\$${widget.product.productPrice.toString()}",
-                style: GoogleFonts.roboto(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF3C55Ef),
+                SizedBox(
+                  width: 20,
                 ),
+                Text(
+                  "\$${widget.product.productPrice.toString()}",
+                  style: GoogleFonts.roboto(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF3C55Ef),
+                  ),
                 ),
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(widget.product.category,
-            style: GoogleFonts.roboto(
-              color: Colors.grey,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),),
+            child: Text(
+              widget.product.category,
+              style: GoogleFonts.roboto(
+                color: Colors.grey,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("About",
-                style: GoogleFonts.lato(
-                  fontSize: 17,
-                  letterSpacing: 1.7,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF363330),
-                  
-                ),
+                Text(
+                  "About",
+                  style: GoogleFonts.lato(
+                    fontSize: 17,
+                    letterSpacing: 1.7,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF363330),
+                  ),
                 ),
                 Text(
                   widget.product.description,
                   style: GoogleFonts.radioCanada(
                     letterSpacing: 1,
                   ),
-                  ),
+                ),
               ],
             ),
           ),
@@ -149,23 +158,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       bottomSheet: Padding(
         padding: EdgeInsets.all(8),
         child: InkWell(
-          onTap: (){},
+          onTap: () {
+            _cartProvider.addProductToCart(
+                productName: widget.product.productName,
+                productPrice: widget.product.productPrice,
+                category: widget.product.category,
+                image: widget.product.images,
+                vendorId: widget.product.vendorId,
+                productQuantity: widget.product.quantity,
+                quantity: 1,
+                productId: widget.product.id,
+                description: widget.product.description,
+                fullName: widget.product.fullName);
+            showSnackBar(context, widget.product.productName);
+          },
           child: Container(
             width: 386,
             height: 46,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              color: Color(0xFF3B54EE,),
+              color: Color(
+                0xFF3B54EE,
+              ),
               borderRadius: BorderRadius.circular(24),
-            
             ),
             child: Center(
-              child: Text("ADD TO CART",
-              style: GoogleFonts.roboto(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.white
-              ),
+              child: Text(
+                "ADD TO CART",
+                style: GoogleFonts.roboto(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
             ),
           ),
