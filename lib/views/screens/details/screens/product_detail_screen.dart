@@ -15,9 +15,10 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
+  
   @override
   Widget build(BuildContext context) {
-    final _cartProvider = ref.read(cartProvider.notifier);
+    final cartProviderObject = ref.read(cartProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -159,7 +160,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         padding: EdgeInsets.all(8),
         child: InkWell(
           onTap: () {
-            _cartProvider.addProductToCart(
+            cartProviderObject.addProductToCart(
                 productName: widget.product.productName,
                 productPrice: widget.product.productPrice,
                 category: widget.product.category,

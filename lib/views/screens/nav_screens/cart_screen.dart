@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_cart/providers/cart_provider.dart';
+import 'package:smart_cart/views/screens/details/screens/checkout_screen.dart';
 import 'package:smart_cart/views/screens/main_screen.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
@@ -16,7 +17,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final cartData = ref.watch(cartProvider);
-    final _cartProvider = ref.read(cartProvider.notifier);
+    final cartProviderObject = ref.read(cartProvider.notifier);
     final totalAmount = ref.read(cartProvider.notifier).calculateTotalAmount();
     return Scaffold(
       appBar: PreferredSize(
@@ -215,7 +216,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                               children: [
                                                 IconButton(
                                                     onPressed: () {
-                                                      _cartProvider
+                                                      cartProviderObject
                                                           .decrementCartItem(
                                                               cartItem
                                                                   .productId);
@@ -232,7 +233,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 ),
                                                 IconButton(
                                                     onPressed: () {
-                                                      _cartProvider
+                                                      cartProviderObject
                                                           .incrementCartItem(
                                                               cartItem
                                                                   .productId);
@@ -248,7 +249,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                       ),
                                       IconButton(
                                           onPressed: () {
-                                            _cartProvider.removeCartItem(
+                                            cartProviderObject.removeCartItem(
                                                 cartItem.productId);
                                           },
                                           icon: Icon(
@@ -297,43 +298,53 @@ class _CartScreenState extends ConsumerState<CartScreen> {
             ),
             Align(
               alignment: Alignment(-0.19, -0.31),
-              child: Text("\$${totalAmount.toStringAsFixed(2)}",
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFFF6464)
-              ),
+              child: Text(
+                "\$${totalAmount.toStringAsFixed(2)}",
+                style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFF6464)),
               ),
             ),
-            SizedBox(width: 15,),
+            SizedBox(
+              width: 15,
+            ),
             Align(
               alignment: Alignment(0.83, -1),
               child: InkWell(
-                onTap: (){},
+                onTap: () {
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) {
+                    return CheckoutScreen();
+                  }));
+                },
                 child: Container(
                   width: 166,
                   height: 71,
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
-                    color: totalAmount==0.0?Colors.grey: Color(0xFF1532E7),
+                    color: totalAmount == 0.0 ? Colors.grey : Color(0xFF1532E7),
                   ),
-                  
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Checkout",style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            "Checkout",
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                                                ),
-                        Icon(Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      ),
-                      ],
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ],
                       ),
                     ),
                   ),
