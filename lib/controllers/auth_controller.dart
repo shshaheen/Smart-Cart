@@ -125,4 +125,54 @@ class AuthController {
       showSnackBar(context, 'Error Signing out');
     }
   }
+
+  // Update user's state, city and locality
+  Future<void> updateUserLocation(
+      {required context,
+      required String id,
+      required String state,
+      required String city,
+      required String locality}) async {
+    try {
+      //Make an HTTP PUT request to update user's state, city and locality
+      http.Response response = await http.put(
+        Uri.parse('$uri/api/users/$id'),
+        // set the headers for the request to specify that the content is Json
+        headers: <String, String>{
+          "content-Type": "application/json; charset=UTF-8"
+        },
+        //Encode the updated data(State, City and Locality) as Json Object
+        body: jsonEncode({'state': state, 'city': city, 'locality': locality}),
+      );
+      manageHttpResponse(
+          response: response,
+          context: context,
+          onSuccess: () async {
+            // Decode the updated user data from the response body
+            //this converts the json String response into Dart Map
+            final updatedUser = jsonDecode(response.body);
+            //Access Shared preference for local data storage
+            //Shared Preferences allow us to store data persistently on the device
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            // Encode the updated user data as json string
+            //this prepared the data for storage in shared preferences
+            final userJson = jsonEncode(updatedUser);
+
+            //update the application state with updated user data using Riverpod
+            // this ensures the app reflects the most recent user data
+            providerContainer.read(userProvider.notifier).setUser(userJson);
+
+            //store the updated user data in shared preferences for future use
+            //this allows the app to retrive the user data even after the app restarts
+            await preferences.setString('user', userJson);
+          });
+    } catch (e) {
+      // catch any error that occure during the process
+      // show an error message to the user if the update fails
+      showSnackBar(context, "Error Updating Location");
+    }
+  }
+
+  
 }

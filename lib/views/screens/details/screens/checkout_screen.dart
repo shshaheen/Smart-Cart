@@ -16,8 +16,10 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   String selectedPaymentMethod = 'stripe';
   final OrderController _orderController = OrderController();
+  
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     final cartData = ref.read(cartProvider);
     final cartProvierObject = ref.read(cartProvider.notifier);
     return Scaffold(
@@ -99,7 +101,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
+                                        child:user!.state.isNotEmpty? Text(
+                                          user.state,
+                                          style: GoogleFonts.lato(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1.3,
+                                          ),
+                                        ): Text(
                                           'United state',
                                           style: GoogleFonts.lato(
                                             fontSize: 14,
@@ -110,7 +119,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                       ),
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
+                                        child: user.city.isNotEmpty? Text(
+                                          user.city,
+                                          style: GoogleFonts.lato(
+                                            color: const Color(0xFF7F808C),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                          ),
+                                        ):
+                                        Text(
                                           'Enter city',
                                           style: GoogleFonts.lato(
                                             color: const Color(0xFF7F808C),
@@ -338,7 +355,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ref.read(userProvider)!.state == ""
+        child: user!.state.isEmpty
             ? TextButton(
                 onPressed: () {
                   Navigator.of(context).push(

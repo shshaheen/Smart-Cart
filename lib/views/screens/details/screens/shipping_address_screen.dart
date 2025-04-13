@@ -1,17 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_cart/controllers/auth_controller.dart';
+import 'package:smart_cart/providers/user_provider.dart';
 
-class ShippingAddressScreen extends StatefulWidget {
+class ShippingAddressScreen extends ConsumerStatefulWidget {
   const ShippingAddressScreen({super.key});
 
   @override
-  State<ShippingAddressScreen> createState() => _ShippingAddressScreenState();
+  ConsumerState<ShippingAddressScreen> createState() =>
+      _ShippingAddressScreenState();
 }
 
-class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
+class _ShippingAddressScreenState extends ConsumerState<ShippingAddressScreen> {
+  final AuthController _authController = AuthController();
+  late String state;
+  late String city;
+  late String locality;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //Show Loading Dialog
+  _showLoadingDialog() {
+    showDialog(context: context, builder: (context){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: EdgeInsets.all(15),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator()
+                ,SizedBox(width: 20,),
+                Text("Updating...",
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),)
+            ],
+          ),),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = ref.read(userProvider);
+    final updateUser = ref.read(userProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(233),
       appBar: AppBar(
@@ -44,6 +78,9 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                   ),
                 ),
                 TextFormField(
+                  onChanged: (value) {
+                    state = value;
+                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please Enter State";
@@ -59,6 +96,9 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                   height: 10,
                 ),
                 TextFormField(
+                  onChanged: (value) {
+                    city = value;
+                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please Enter City";
@@ -74,6 +114,9 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                   height: 10,
                 ),
                 TextFormField(
+                  onChanged: (value) {
+                    locality = value;
+                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please Enter Locality";
@@ -93,9 +136,24 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(9.0),
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             if (_formKey.currentState!.validate()) {
-              print("Valid");
+              _showLoadingDialog();
+              await _authController
+                  .updateUserLocation(
+                      context: context,
+                      id: ref.read(userProvider)!.id,
+                      state: state,
+                      city: city,
+                      locality: locality)
+                  .whenComplete(() {
+                updateUser.recreateUserState(
+                    state: state, city: city, locality: locality);
+                    
+              });
+              // print("Valid");
+              Navigator.pop(context);// this will close the dialog
+              Navigator.pop(context);// this will close the shipping screen meaning it will take us back to the formal which is the checkout
             } else {
               print("Not Valid");
             }
