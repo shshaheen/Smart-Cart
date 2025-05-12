@@ -82,11 +82,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.centerLeft,
                                         child: SizedBox(
                                           width: 114,
-                                          child: Text(
+                                          child: user!.state.isNotEmpty ? 
+                                          Text(
+                                            'Adress',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.1,
+                                            ),
+                                          ) : 
+                                          Text(
                                             'Add Adress',
                                             style: TextStyle(
                                               fontSize: 14,
@@ -355,7 +364,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: user!.state.isEmpty
+        child: user.state.isEmpty
             ? TextButton(
                 onPressed: () {
                   Navigator.of(context).push(

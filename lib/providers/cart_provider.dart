@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_cart/models/cart.dart';
-
+ 
 // Define a StateNotifierProvider to expose an instance of the CartNotifier
 // making it accessible within our app
 final cartProvider =

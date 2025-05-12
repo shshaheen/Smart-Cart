@@ -1,1 +1,1 @@
-String uri = "http://192.168.43.205:3000";
+String uri = "https://smart-cart-backend-api.onrender.com";

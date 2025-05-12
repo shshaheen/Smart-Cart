@@ -45,7 +45,7 @@ class ProductController {
       http.Response response = await http.get(
         Uri.parse('$uri/api/products-by-category/$category'),
         headers: <String, String>{
-          'Content-Type': 'application/json; chartset=UTF-8 ',
+          'Content-Type': 'application/json; chartset=UTF-8',
         },
       );
       if (response.statusCode == 200) {
