@@ -37,7 +37,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
   Future<void> _deleteOrder(String orderId) async {
     final OrderController orderController = OrderController();
     try {
-      // await orderController.deleteOrder(id: orderId, context: context);
+      await orderController.deleteOrder(id: orderId, context: context);
       _fetchOrders(); //Refresh the list after deletion
     } catch (e) {
       print("error deleting orer : $e");
@@ -318,7 +318,9 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                       left: 298,
                                       child: InkWell(
                                         onTap: () {
+                                          print("order deleted");
                                           _deleteOrder(order.id);
+                                          print("order deleted");
                                         },
                                         child: Image.asset(
                                           'assets/icons/delete.png',
