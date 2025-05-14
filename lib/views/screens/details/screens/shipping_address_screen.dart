@@ -168,7 +168,7 @@ class _ShippingAddressScreenState extends ConsumerState<ShippingAddressScreen> {
                     Navigator.pop(context); // this will close the shipping screen meaning it will take us back to the formal which is the checkout
               });       
             } else {
-              print("Not Valid");
+              // print("Not Valid");
             }
           },
           child: Container(

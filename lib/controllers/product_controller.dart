@@ -13,7 +13,7 @@ class ProductController {
         Uri.parse("$uri/api/popular-products"),
         // set the http headers for the request , specifying that the content type is json with the UTF-8 encoding
         headers: <String, String>{
-          'Content-Type': 'application/json; chartset=UTF-8 ',
+          'Content-Type': 'application/json; charset=UTF-8 ',
         },
       );
       // print(response.body);
@@ -45,7 +45,7 @@ class ProductController {
       http.Response response = await http.get(
         Uri.parse('$uri/api/products-by-category/$category'),
         headers: <String, String>{
-          'Content-Type': 'application/json; chartset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8',
         },
       );
       if (response.statusCode == 200) {
