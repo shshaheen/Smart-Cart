@@ -62,7 +62,7 @@ class _ShippingAddressScreenState extends ConsumerState<ShippingAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.read(userProvider);
+    // final user = ref.read(userProvider);
     final updateUser = ref.read(userProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white.withAlpha(233),

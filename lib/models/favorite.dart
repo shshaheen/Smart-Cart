@@ -12,7 +12,17 @@ class Favorite {
   final String description;
   final String fullName;
 
-  Favorite({required this.productName, required this.productPrice, required this.category, required this.image, required this.vendorId, required this.productQuantity, required this.quantity, required this.productId, required this.description, required this.fullName});
+  Favorite(
+      {required this.productName,
+      required this.productPrice,
+      required this.category,
+      required this.image,
+      required this.vendorId,
+      required this.productQuantity,
+      required this.quantity,
+      required this.productId,
+      required this.description,
+      required this.fullName});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -34,7 +44,7 @@ class Favorite {
       productName: map['productName'] as String,
       productPrice: map['productPrice'] as int,
       category: map['category'] as String,
-       image: List<String>.from(
+      image: List<String>.from(
         (map['image'] as List<dynamic>),
       ),
       vendorId: map['vendorId'] as String,
@@ -48,5 +58,6 @@ class Favorite {
 
   String toJson() => json.encode(toMap());
 
-  factory Favorite.fromJson(String source) => Favorite.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Favorite.fromJson(String source) =>
+      Favorite.fromMap(json.decode(source) as Map<String, dynamic>);
 }

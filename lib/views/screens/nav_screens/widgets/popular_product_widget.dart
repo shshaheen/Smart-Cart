@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_cart/controllers/product_controller.dart';
 import 'package:smart_cart/models/product.dart';
-import 'package:smart_cart/providers/cart_provider.dart';
+// import 'package:smart_cart/providers/cart_provider.dart';
 import 'package:smart_cart/providers/product_provider.dart';
 import 'package:smart_cart/views/screens/details/screens/widgets/product_item_widget.dart';
  
@@ -34,7 +34,7 @@ class _PopularProductWidgetState extends ConsumerState<PopularProductWidget> {
   @override
   Widget build(BuildContext context) {
     
-    final cartProviderObject = ref.read(cartProvider.notifier);
+    // final cartProviderObject = ref.read(cartProvider.notifier);
     final products = ref.watch(productProvider);
     return SizedBox(
               height: 250,
