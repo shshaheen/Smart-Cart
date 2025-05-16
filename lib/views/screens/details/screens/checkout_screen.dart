@@ -387,15 +387,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     //pay with stripe to place the order
                   } else {
                     await Future.forEach(
-                        cartProvierObject.getCartItems().entries, (entry) {
+                        cartProvierObject.getCartItems.entries, (entry) {
                       var item = entry.value;
                       _orderController.uploadOrders(
                           id: '',
                           fullName: ref.read(userProvider)!.username,
                           email: ref.read(userProvider)!.email,
-                          state: "Andhra Pradesh",
-                          city: "Kurnool",
-                          locality: "Nayak Veedhi",
+                          state: ref.read(userProvider)!.state,
+                          city: ref.read(userProvider)!.city,
+                          locality: ref.read(userProvider)!.locality,
                           productName: item.productName,
                           productPrice: item.productPrice,
                           quantity: item.quantity,
