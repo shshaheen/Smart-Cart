@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cart/views/screens/details/screens/widgets/top_rated_widget.dart';
 import 'package:smart_cart/views/screens/nav_screens/widgets/banner_widget.dart';
 import 'package:smart_cart/views/screens/nav_screens/widgets/category_item_widget.dart';
 import 'package:smart_cart/views/screens/nav_screens/widgets/header_widget.dart';
@@ -18,9 +19,18 @@ class HomeScreen extends StatelessWidget {
             CategoryItemWidget(),
             ReusableTextWidget(
               title: 'Popular Products', 
-              subtitle: 'View all'
+              subtitle: 'view all'
             ),
             PopularProductWidget(),
+            SizedBox(
+              height: 30,
+            ),
+            ReusableTextWidget(
+              title: 'Top Rated Products', 
+              subtitle: 'view all'
+            ),
+            
+            TopRatedProductWidget(),
           ],
         ),
       ),
