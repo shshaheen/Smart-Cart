@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_cart/controllers/order_controller.dart';
 import 'package:smart_cart/providers/cart_provider.dart';
 import 'package:smart_cart/providers/user_provider.dart';
+import 'package:smart_cart/services/manage_http_response.dart';
 import 'package:smart_cart/views/screens/details/screens/shipping_address_screen.dart';
+import 'package:smart_cart/views/screens/main_screen.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
@@ -406,6 +408,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           processing: true,
                           delivered: false,
                           context: context);
+                    }).then((value) {
+                      cartProvierObject.clearCart();
+                      showSnackBar(context, "Order Placed Successfully");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(),
+                        ),
+                      );
                     });
                   }
                 },
