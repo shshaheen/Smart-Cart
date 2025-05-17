@@ -7,6 +7,7 @@ import 'package:smart_cart/models/category.dart';
 // import 'package:smart_cart/models/subcategory.dart';
 import 'package:smart_cart/providers/category_provider.dart';
 import 'package:smart_cart/providers/subcategory_provider.dart';
+import 'package:smart_cart/views/screens/details/screens/subcategory_product_screen.dart';
 import 'package:smart_cart/views/screens/details/screens/widgets/subcategory_tile_widget.dart';
 // import 'package:smart_cart/views/screens/nav_screens/widgets/category_item_widget.dart';
 import 'package:smart_cart/views/screens/nav_screens/widgets/header_widget.dart';
@@ -144,12 +145,12 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
 
                                     return GestureDetector(
                                       onTap: () {
-                                      //   Navigator.push(context,
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) {
-                                      //     return SubcategoryProductScreen(
-                                      //         subcategory: subcategory);
-                                      //   }));
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return SubcategoryProductScreen(
+                                              subcategory: subcategory);
+                                        }));
                                       },
                                       child: SubcategoryTileWidget(
                                           image: subcategory.image,

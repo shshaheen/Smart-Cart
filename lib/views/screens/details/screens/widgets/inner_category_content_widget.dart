@@ -6,6 +6,7 @@ import 'package:smart_cart/controllers/subcategory_controller.dart';
 import 'package:smart_cart/models/category.dart';
 import 'package:smart_cart/models/product.dart';
 import 'package:smart_cart/models/subcategory.dart';
+import 'package:smart_cart/views/screens/details/screens/subcategory_product_screen.dart';
 import 'package:smart_cart/views/screens/details/screens/widgets/inner_banner_widget.dart';
 import 'package:smart_cart/views/screens/details/screens/widgets/inner_header_widget.dart';
 import 'package:smart_cart/views/screens/details/screens/widgets/product_item_widget.dart';
@@ -34,7 +35,8 @@ class _InnerCategoryContentWidgetState
     super.initState();
     _subcategories = _subcategoryController
         .getSubcategoriesByCategoryName(widget.category.name);
-    futureProducts = ProductController().loadProductByCategory(widget.category.name);
+    futureProducts =
+        ProductController().loadProductByCategory(widget.category.name);
   }
 
   @override
@@ -98,9 +100,21 @@ class _InnerCategoryContentWidgetState
                                           ? subcategories.length
                                           : end)
                                   .map(
-                                    (subcategory) => SubcategoryTileWidget(
-                                        image: subcategory.image,
-                                        title: subcategory.subCategoryName),
+                                    (subcategory) => GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SubcategoryProductScreen(
+                                                    subcategory: subcategory),
+                                          ),
+                                        );
+                                      },
+                                      child: SubcategoryTileWidget(
+                                          image: subcategory.image,
+                                          title: subcategory.subCategoryName),
+                                    ),
                                   )
                                   .toList(),
                             ),
@@ -114,37 +128,37 @@ class _InnerCategoryContentWidgetState
               title: 'Popular Product',
               subtitle: 'View  all',
             ),
-
-
             FutureBuilder(
-            future: futureProducts,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error ${snapshot.error}'),
-                );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text("No Product under this category"),
-                );
-              } else {
-                final products = snapshot.data;
-                return SizedBox(
-                  height: 250,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: products!.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        return ProductItemWidget(product: product,);
-                      }),
-                );
-              }
-            }),
+                future: futureProducts,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error ${snapshot.error}'),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text("No Product under this category"),
+                    );
+                  } else {
+                    final products = snapshot.data;
+                    return SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: products!.length,
+                          itemBuilder: (context, index) {
+                            final product = products[index];
+                            return ProductItemWidget(
+                              product: product,
+                            );
+                          }),
+                    );
+                  }
+                }),
           ],
         ),
       ),
