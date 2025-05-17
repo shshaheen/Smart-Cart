@@ -99,7 +99,6 @@ class ProductController {
     }
   }
 
-
   // method to get top 10 highest-rated products
   Future<List<Product>> loadTopRatedProducts() async {
     try {
@@ -129,7 +128,7 @@ class ProductController {
     }
   }
 
-   Future<List<Product>> loadProductsBySubcategory(String subCategory) async {
+  Future<List<Product>> loadProductsBySubcategory(String subCategory) async {
     try {
       http.Response response = await http.get(
         Uri.parse('$uri/api/products-by-subcategory/$subCategory'),
@@ -155,6 +154,36 @@ class ProductController {
       }
     } catch (e) {
       throw Exception('Error subcategory product : $e');
+    }
+  }
+
+  //Method to search product by name and description
+  Future<List<Product>> searchProduct(String query) async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse('$uri/api/search-products?query=$query'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        //Decode the json response body into a list  of dynamic object
+        final List<dynamic> data = json.decode(response.body) as List<dynamic>;
+        //map each items in the list to product model object which we can use
+
+        List<Product> products = data
+            .map((product) => Product.fromMap(product as Map<String, dynamic>))
+            .toList();
+        return products;
+      } else if (response.statusCode == 404) {
+        return [];
+      } else {
+        //if status code is not 200 , throw an execption   indicating failure to load the popular products
+        throw Exception('Failed to load search products');
+      }
+    } catch (e) {
+      throw Exception('Error loading search product : $e');
     }
   }
 }
