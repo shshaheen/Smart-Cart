@@ -383,11 +383,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     letterSpacing: 1.2,
                   ),
                 ))
+                
             : InkWell(
                 onTap: () async {
                   if (selectedPaymentMethod == "stripe") {
                     //pay with stripe to place the order
                   } else {
+                    if (!context.mounted) return;
                     await Future.forEach(
                         cartProvierObject.getCartItems.entries, (entry) {
                       var item = entry.value;
@@ -407,9 +409,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           vendorId: item.vendorId,
                           processing: true,
                           delivered: false,
+                          
                           context: context);
                     }).then((value) {
                       cartProvierObject.clearCart();
+                      
+                      if (!context.mounted) return;
                       showSnackBar(context, "Order Placed Successfully");
                       Navigator.push(
                         context,

@@ -166,6 +166,7 @@ class _ShippingAddressScreenState extends ConsumerState<ShippingAddressScreen> {
                   .whenComplete(() {
                 updateUser.recreateUserState(
                     state: stateController.text, city: cityController.text, locality: localityController.text);
+                    if(!context.mounted) return;
                     Navigator.pop(context); // this will close the dialog
                     Navigator.pop(context); // this will close the shipping screen meaning it will take us back to the formal which is the checkout
               });       

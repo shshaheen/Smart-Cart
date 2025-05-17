@@ -29,7 +29,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
         final orders = await orderController.loadOrders(buyerId: user.id);
         ref.read(orderProvider.notifier).setOrders(orders);
       } catch (e) {
-        print('Error fetching order:$e');
+        // print('Error fetching order:$e');
       }
     }
   }
@@ -40,7 +40,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
       await orderController.deleteOrder(id: orderId, context: context);
       _fetchOrders(); //Refresh the list after deletion
     } catch (e) {
-      print("error deleting orer : $e");
+      // print("error deleting orer : $e");
     }
   }
 
@@ -318,9 +318,9 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                       left: 298,
                                       child: InkWell(
                                         onTap: () {
-                                          print("order deleted");
+                                          // print("order deleted");
                                           _deleteOrder(order.id);
-                                          print("order deleted");
+                                          // print("order deleted");
                                         },
                                         child: Image.asset(
                                           'assets/icons/delete.png',

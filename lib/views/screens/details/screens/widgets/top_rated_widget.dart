@@ -34,7 +34,7 @@ class _TopRatedProductWidgetState extends ConsumerState<TopRatedProductWidget> {
       final products = await productController.loadTopRatedProducts();
       ref.read(topRatedProductProvider.notifier).setProducts(products);
     } catch (e) {
-      print("$e");
+      // print("$e");
     } finally {
       setState(() {
         isLoading = false;

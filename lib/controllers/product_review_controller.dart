@@ -39,7 +39,7 @@ class ProductReviewController {
             showSnackBar(context, 'You have added a review ');
           });    
     } catch (e) {
-    
+      return showSnackBar(context, 'Error uploading review: $e');
     }
   }
 }

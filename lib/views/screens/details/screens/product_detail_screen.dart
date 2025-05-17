@@ -38,7 +38,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     }
   @override
   Widget build(BuildContext context) {
-    final RelatedProductProvider = ref.watch(relatedProductProvider);
+    final relatedProduct = ref.watch(relatedProductProvider);
     final cartProviderObject = ref.read(cartProvider.notifier);
     final favoriteProviderData = ref.read(favoriteProvider.notifier);
     ref.watch(favoriteProvider);
@@ -231,9 +231,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                 height: 250,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: RelatedProductProvider.length,
+                    itemCount: relatedProduct.length,
                     itemBuilder: (context, index) {
-                      final product = RelatedProductProvider[index];
+                      final product = relatedProduct[index];
                       return ProductItemWidget(product: product,);
                     }),
               ),

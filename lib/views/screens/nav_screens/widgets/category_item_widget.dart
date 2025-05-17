@@ -31,7 +31,7 @@ class CategoryItemWidgetState extends ConsumerState<CategoryItemWidget> {
       final categories = await categoryController.loadCateegories();
       ref.read(categoryProvider.notifier).setCategories(categories);
     } catch (e) {
-      print('Error fetching categories: $e');
+      // print('Error fetching categories: $e');
     }
   }
 
