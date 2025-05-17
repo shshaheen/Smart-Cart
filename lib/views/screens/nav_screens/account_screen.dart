@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:smart_cart/controllers/auth_controller.dart';
+import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/providers/cart_provider.dart';
 import 'package:smart_cart/providers/delivered_order_count_provider.dart';
 import 'package:smart_cart/providers/favorite_provider.dart';
@@ -17,7 +17,7 @@ class AccountScreen extends ConsumerStatefulWidget {
 }
 
 class AccountScreenState extends ConsumerState<AccountScreen> {
-  // final AuthController _authController = AuthController();
+  final AuthController _authController = AuthController();
 
   //show signout dialog
   void showSignOutDialog(BuildContext context) {
@@ -60,7 +60,7 @@ class AccountScreenState extends ConsumerState<AccountScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
                 onPressed: () {
-                  // _authController.signOutUSer(context: context, ref: ref);
+                  _authController.signOutUser(context: context, ref: ref);
                 },
                 child: Text(
                   "Logout",

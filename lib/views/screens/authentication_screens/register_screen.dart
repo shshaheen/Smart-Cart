@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class RegisterScreenState extends ConsumerState<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final AuthController _authController = AuthController();
@@ -28,7 +29,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context: context,
             username: username,
             email: email,
-            password: password)
+            password: password,
+            ref: ref)
         .whenComplete(() {
         // _formKey.currentState!.reset();
       setState(() {

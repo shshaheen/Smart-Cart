@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_cart/providers/delivered_order_count_provider.dart';
 import 'package:smart_cart/providers/user_provider.dart';
 import 'package:smart_cart/services/manage_http_response.dart';
 import 'package:smart_cart/views/screens/authentication_screens/login_screen.dart';
@@ -10,14 +11,16 @@ import '../models/user.dart';
 import 'package:http/http.dart' as http;
 import '../global_variables.dart';
 
-final providerContainer = ProviderContainer();
+// final providerContainer = ProviderContainer();
 
 class AuthController {
   Future<void> signUpUsers(
-      {required context,
+      {required BuildContext context,
       required String username,
       required String email,
-      required String password}) async {
+      required String password,
+      required WidgetRef ref
+      }) async {
     try {
       User user = User(
           id: '',
@@ -37,6 +40,7 @@ class AuthController {
               "application/json; charset=UTF-8", // specify the content type as Json
         }, // Set the Headers for the request body
       );
+      if (!context.mounted) return;
       manageHttpResponse(
           response: response,
           context: context,
@@ -51,7 +55,7 @@ class AuthController {
   }
 
   Future<void> signInUsers(
-      {required context,
+      {required BuildContext context,
       required String email,
       required String password}) async {
     try {
@@ -69,6 +73,7 @@ class AuthController {
               "application/json; charset=UTF-8", // specify the content type as Json
         }, // Set the Headers for the request body
       );
+      if (!context.mounted) return;
       // Handle the response using the manage_http_response
       manageHttpResponse(
           response: response,
@@ -90,11 +95,11 @@ class AuthController {
 
             //Update the application state with the user data using Riverpod
             // Encode the user data received from the backened as json using Riverpod
-            providerContainer.read(userProvider.notifier).setUser(userJson);
 
+            // .read(userProvider.notifier).setUser(userJson);
             //store the data in sharedPrefernce for future use
             await preferences.setString('user', userJson);
-
+            if (!context.mounted) return;
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => MainScreen()),
                 (route) => false);
@@ -107,15 +112,17 @@ class AuthController {
   }
 
   //SignOut
-  Future<void> signOutUsers({required context}) async {
+  Future<void> signOutUser({required BuildContext context,required WidgetRef ref}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       // Clear the stored token and user from SharedPreference
       await preferences.remove('auth_token');
       await preferences.remove('user');
       // Clear the user state
-      providerContainer.read(userProvider.notifier).signOut();
+      ref.read(userProvider.notifier).signOut();
+      ref.read(deliveredOrderCountProvider.notifier).resetCount();
       //Navigate the user back to the login screen
+      if (!context.mounted) return;
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -128,11 +135,13 @@ class AuthController {
 
   // Update user's state, city and locality
   Future<void> updateUserLocation(
-      {required context,
+      {required BuildContext context,
       required String id,
       required String state,
       required String city,
-      required String locality}) async {
+      required String locality,
+      required WidgetRef ref
+      }) async {
     try {
       //Make an HTTP PUT request to update user's state, city and locality
       http.Response response = await http.put(
@@ -144,6 +153,7 @@ class AuthController {
         //Encode the updated data(State, City and Locality) as Json Object
         body: jsonEncode({'state': state, 'city': city, 'locality': locality}),
       );
+      if (!context.mounted) return;
       manageHttpResponse(
           response: response,
           context: context,
@@ -161,7 +171,7 @@ class AuthController {
 
             //update the application state with updated user data using Riverpod
             // this ensures the app reflects the most recent user data
-            providerContainer.read(userProvider.notifier).setUser(userJson);
+            ref.read(userProvider.notifier).setUser(userJson);
 
             //store the updated user data in shared preferences for future use
             //this allows the app to retrive the user data even after the app restarts
@@ -173,6 +183,4 @@ class AuthController {
       showSnackBar(context, "Error Updating Location");
     }
   }
-
-  
 }

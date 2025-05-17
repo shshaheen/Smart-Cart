@@ -160,7 +160,9 @@ class _ShippingAddressScreenState extends ConsumerState<ShippingAddressScreen> {
                       id: ref.read(userProvider)!.id,
                       state: stateController.text,
                       city: cityController.text,
-                      locality: localityController.text)
+                      locality: localityController.text,
+                      ref: ref
+                      )
                   .whenComplete(() {
                 updateUser.recreateUserState(
                     state: stateController.text, city: cityController.text, locality: localityController.text);
