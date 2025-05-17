@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:smart_cart/controllers/auth_controller.dart';
 import 'package:smart_cart/providers/cart_provider.dart';
+import 'package:smart_cart/providers/delivered_order_count_provider.dart';
 import 'package:smart_cart/providers/favorite_provider.dart';
 import 'package:smart_cart/providers/user_provider.dart';
 import 'package:smart_cart/views/screens/details/screens/order_screen.dart';
@@ -77,14 +78,14 @@ class AccountScreenState extends ConsumerState<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final buyerId = ref.read(userProvider)!.id;
-    //fetch the delivered order count when the widget  build
-    // ref
-    //     .read(deliveredOrderCountProvider.notifier)
-    //     .fetchDeliveredOrderCount(buyerId, context);
+    final buyerId = ref.read(userProvider)!.id;
+    // fetch the delivered order count when the widget  build
+    ref
+        .read(deliveredOrderCountProvider.notifier)
+        .fetchDeliveredOrderCount(buyerId, context);
 
     //watch the deliveredOrderCountProvider to reactively rebuild when state changes
-    // final deliveredCount = ref.watch(deliveredOrderCountProvider);
+    final deliveredCount = ref.watch(deliveredOrderCountProvider);
     final user = ref.read(userProvider);
     final cartData = ref.read(cartProvider);
     final favoriteCount = ref.read(favoriteProvider);
@@ -200,8 +201,8 @@ class AccountScreenState extends ConsumerState<AccountScreen> {
                             left: 240,
                             top: 66,
                             child: Text(
-                              // deliveredCount.toString(),
-                              '0',
+                              deliveredCount.toString(),
+                              // '0',
                               style: GoogleFonts.roboto(
                                 color: Colors.white,
                                 fontSize: 22,

@@ -77,6 +77,8 @@ class OrderController {
           'x-auth-token': token!,
         },
       );
+      // print(response.body);
+      // print(buyerId);
       // Check if the response status code is 200(OK)
       if (response.statusCode == 200) {
         // Parse the JSON response body into dynamic list
@@ -87,6 +89,8 @@ class OrderController {
         List<Order> orders = jsonData.map((order) => Order.fromJson(order)).toList();
         // Return the list of orders
         return orders;
+      }else if (response.statusCode == 404) {
+        return [];
       }
       // If the response status code is not 200, throw an exception
       else {
@@ -120,6 +124,18 @@ class OrderController {
     }
     catch(e){
       throw Exception('Error deleting order: $e');
+    }
+  }
+
+
+   Future<int> getDeliveredOrderCount({required String buyerId}) async {
+    try {
+      List<Order> orders = await loadOrders(buyerId: buyerId);
+      // Filter only delivered orders belonging to the correct buyer ID
+      int deliveredCount = orders.where((order) => order.delivered && order.buyerId == buyerId).length;
+      return deliveredCount;
+    } catch (e) {
+      throw Exception("Error counting Delivered Orders");
     }
   }
 }
