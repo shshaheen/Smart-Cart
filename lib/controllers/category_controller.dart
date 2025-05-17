@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class CategoryController {
 
   // load the uploaded categories from the database
-  Future<List<Category>> loadCateegories() async {
+  Future<List<Category>> loadCategories() async {
     try {
       // send an http get request to load the categories
       http.Response response = await http
